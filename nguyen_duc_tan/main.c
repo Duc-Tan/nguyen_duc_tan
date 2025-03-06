@@ -2,19 +2,38 @@
 #include<stdio.h>
 
 void main() {
-	float diem;
-	printf("Nhap vao diem trung binh: ");
-	scanf("%f", &diem);
-	if (diem >= 8.0) {
-		printf("Hoc sinh gioi");
-	}
-	else if (8.0 > diem && diem >= 6.5) {
-		printf("Hoc sinh kha");
-	}
-	else if (6.5 > diem && diem >= 5.0) {
-		printf("Hoc sinh trung binh");
-	}
-	else if (diem < 5.0) {
-		printf("Hoc sinh yeu");
+	int n;
+	printf("Nhap vao n= ");
+	scanf("%d", &n);
+	switch (n) {
+	case 1:
+		printf("one");
+		break;
+	case 2:
+		printf("two");
+		break;
+	case 3:
+		printf("three");
+		break;
+	case 4:
+		printf("four");
+		break;
+	case 5:
+		printf("five");
+		break;
+	case 6:
+		printf("six");
+		break;
+	case 7:
+		printf("seven");
+		break;
+	case 8:
+		printf("eight");
+		break;
+	case 9:
+		printf("nine");
+		break;
+	default:
+		printf("Greater than 9");
 	}
 }
