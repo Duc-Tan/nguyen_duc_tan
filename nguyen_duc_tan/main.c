@@ -2,31 +2,11 @@
 #include<stdio.h>
 
 void main() {
-    double luong;
-    double thue = 0;
-    printf("Nhap so luong cua ban: ");
-    scanf("%lf", &luong);
+	for (int i = 1; i < 11; i++) {
+		for (int j = 2; j < 10; j++) {
+			printf("%d * %d = %d\t", j, i, i * j);
+		}
+		printf("\n");
+	}
 
-    if (luong < 0) {
-        printf("So luong khong hop le\n");
-    }
-    else {
-        if (luong > 18000000) {
-            thue += (luong - 18000000) * 0.2;
-            luong = 18000000;
-        }
-        if (luong >= 10000000) {
-            thue += (luong - 1000000) * 0.15;
-            luong = 10000000;
-        }
-        if (luong > 5000000) {
-            thue += (luong - 5000000) * 0.1;
-            luong = 5000000;
-        }
-        if (luong <= 5000000) {
-            thue += luong * 0.05;
-        }
-
-        printf("So thue phai nop la: %lf VND\n", thue);
-    }
 }
