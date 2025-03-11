@@ -2,39 +2,31 @@
 #include<stdio.h>
 
 void main() {
-    int k;
-    int tien = 0;
-    printf("Nhap so kWh su dung: ");
-    scanf("%d", &k);
+    double luong;
+    double thue = 0;
+    printf("Nhap so luong cua ban: ");
+    scanf("%lf", &luong);
 
-    if (k < 0) {
-        printf("So kWh khong hop le\n");
+    if (luong < 0) {
+        printf("So luong khong hop le\n");
     }
     else {
-        if (k > 400) {
-            tien += (k - 400) * 2927;
-            k = 400;
+        if (luong > 18000000) {
+            thue += (luong - 18000000) * 0.2;
+            luong = 18000000;
         }
-        if (k > 300) {
-            tien += (k - 300) * 2834;
-            k = 300;
+        if (luong >= 10000000) {
+            thue += (luong - 1000000) * 0.15;
+            luong = 10000000;
         }
-        if (k > 200) {
-            tien += (k - 200) * 2536;
-            k = 200;
+        if (luong > 5000000) {
+            thue += (luong - 5000000) * 0.1;
+            luong = 5000000;
         }
-        if (k > 100) {
-            tien += (k - 100) * 2014;
-            k = 100;
-        }
-        if (k > 50) {
-            tien += (k - 50) * 1734;
-            k = 50;
-        }
-        if (k > 0) {
-            tien += k * 1678;
+        if (luong <= 5000000) {
+            thue += luong * 0.05;
         }
 
-        printf("So tien phai tra la: %d VND\n", tien);
+        printf("So thue phai nop la: %lf VND\n", thue);
     }
 }
