@@ -2,38 +2,21 @@
 #include<stdio.h>
 
 void main() {
-	int n;
-	printf("Nhap vao n= ");
-	scanf("%d", &n);
-	switch (n) {
-	case 1:
-		printf("one");
-		break;
-	case 2:
-		printf("two");
-		break;
-	case 3:
-		printf("three");
-		break;
-	case 4:
-		printf("four");
-		break;
-	case 5:
-		printf("five");
-		break;
-	case 6:
-		printf("six");
-		break;
-	case 7:
-		printf("seven");
-		break;
-	case 8:
-		printf("eight");
-		break;
-	case 9:
-		printf("nine");
-		break;
-	default:
-		printf("Greater than 9");
+	int a,b,c,max;
+	printf("Nhap vao so a: ");
+	scanf("%d", &a);
+	printf("Nhap vao so b: ");
+	scanf("%d", &b);
+	printf("Nhap vao so c: ");
+	scanf("%d", &c);
+
+	max = a;
+	if (max < b) {
+		max = b;
 	}
+	if (max < c) {
+		max = c;
+	}
+	printf("So lon nhat la: %d", max);
+	
 }
