@@ -2,21 +2,31 @@
 #include<stdio.h>
 
 void main() {
-	int a,b,c,max;
-	printf("Nhap vao so a: ");
-	scanf("%d", &a);
-	printf("Nhap vao so b: ");
-	scanf("%d", &b);
-	printf("Nhap vao so c: ");
-	scanf("%d", &c);
+	float a, b, c, del,x, x1, x2;
+	printf("Nhap vao so a= ");
+	scanf("%f", &a);
+	printf("Nhap vao so b= ");
+	scanf("%f", &b);
+	printf("Nhap vao so c= ");
+	scanf("%f", &c);
 
-	max = a;
-	if (max < b) {
-		max = b;
+	if (a == 0) {
+		printf("Phuong trinh bac nhat");
 	}
-	if (max < c) {
-		max = c;
+	else {
+
+		del = b * b - 4 * a * c;
+		if (del < 0) {
+			printf("Phuong trinh vo nghiem");
+		}
+		else if (del == 0) {
+			x = -b / (2 * a);
+			printf("Phuong trinh co nghiem kep x1=x2= %f", x);
+		}
+		else {
+			x1 = (-b + sqrt(del)) / (2 * a);
+			x2 = (-b - sqrt(del)) / (2 * a);
+			printf("Phuong trinh co 2 nghiem phan biet x1= %f, x2= %f", x1, x2);
+		}
 	}
-	printf("So lon nhat la: %d", max);
-	
 }
