@@ -2,16 +2,14 @@
 #include<stdio.h>
 
 void main() {
-	int a;
-	printf("Nhap vao so  nguyen a= ");
-	scanf("%d", &a);
-	if (a > 0) {
-		printf("So %d la so duong\n", a);
+	int n;
+	printf("Nhap vao so  nguyen n= ");
+	scanf("%d", &n);
+	if (n%2==0) {
+		printf("So %d la so CHAN\n", n);
 	}
-	else if (a < 0) {
-		printf("So %d la so am\n", a);
-	}
+	
 	else {
-		printf("So %d la so 0\n", a);
+		printf("So %d la so LE\n", n);
 	}
 }
