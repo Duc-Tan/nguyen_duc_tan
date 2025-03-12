@@ -3,13 +3,16 @@
 
 void main() {
 	int n;
-	int sum = 0;
-	printf("Nhap vao so n: ");
+	int gt = 1;
+	printf("Nhap n: ");
 	scanf("%d", &n);
-	for (int i = 0; i <= n; i++) {
-		if (i % 2 == 0)
-			sum += i;
+	for (int i = 1; i <= n; i++) {
+		if (n == 0) {
+			gt = 1;
+		}
+		else {
+			gt *= i;
+		}
 	}
-	printf("Tong %d so tu nhien chan dau tien la: %d\n", n,sum);
-
+	printf("Giai thua cua %d la: %d", n, gt);
 }
