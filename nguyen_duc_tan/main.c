@@ -3,16 +3,18 @@
 #include<math.h>
 
 void main() {
-	int n;
-	printf("Nhap vao so:");
-	scanf("%d", &n);
-	for (int i = 1; i <= n; i++) {
-		int dem = 0;
-		for (int j = 1; j <= i; j++) {
-			if (i%j == 0)
-				dem++;
+	int a,b;
+	int max = 0;
+	printf("Nhap vao so nguyen A: ");
+	scanf("%d", &a);
+	printf("Nhap vao so nguyen B: ");
+	scanf("%d", &b);
+	for (int i = 1; i <= a; i++) {
+		if (a % i == 0 && b % i == 0) {
+			if (i > max) {
+				max = i;
+			}
 		}
-		if (dem == 2)
-			printf("%d ", i);
 	}
+	printf("UCLN cua %d va %d la: %d\n", a, b, max);
 }
