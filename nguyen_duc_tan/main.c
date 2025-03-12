@@ -3,16 +3,19 @@
 
 void main() {
 	int n;
-	int gt = 1;
-	printf("Nhap n: ");
-	scanf("%d", &n);
-	for (int i = 1; i <= n; i++) {
-		if (n == 0) {
-			gt = 1;
+	int m = 0;
+	int error = 0;
+	do {
+		printf("Nhap vao so: ");
+		scanf("%d", &n);
+		if (n != m) {
+			printf("Vui long nhap lai\n");
+			error++;
+			if (error == 5) {
+				break;
+			}
 		}
-		else {
-			gt *= i;
-		}
-	}
-	printf("Giai thua cua %d la: %d", n, gt);
+	} while (n != m);
+
+	
 }
