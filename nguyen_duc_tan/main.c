@@ -3,18 +3,15 @@
 #include<math.h>
 
 void main() {
-	int a,b;
-	int max = 0;
-	printf("Nhap vao so nguyen A: ");
-	scanf("%d", &a);
-	printf("Nhap vao so nguyen B: ");
-	scanf("%d", &b);
-	for (int i = 1; i <= a; i++) {
-		if (a % i == 0 && b % i == 0) {
-			if (i > max) {
-				max = i;
-			}
-		}
+	float S=0;
+	float a, b, h;
+	printf("Nhap vao a= ");
+	scanf("%f", &a);
+	printf("Nhap vao b= ");
+	scanf("%f", &b);
+	h = (b - a) / 1000;
+	for (int i = 0; i < 1000; i++) {
+		S += (pow(a + i * h, 2) + pow(a + (i + 1) * h, 2)) * h / 2;
 	}
-	printf("UCLN cua %d va %d la: %d\n", a, b, max);
+	printf("Tich phan tu a den b cua ham f(x)=x^2 la %f", S);
 }
