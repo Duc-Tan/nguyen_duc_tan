@@ -3,13 +3,18 @@
 #include<math.h>
 
 void main() {
-	char str[] = "dem ky tu space trong chuoi   ";
+	char str[] = "Xin chao moi nguoi ";
 	int c = 0;
-	int so_luong_space = 0;
+	char in_hoa[sizeof(str)];
 	while (str[c] != 0) {
-		if (str[c] == ' ')
-			so_luong_space++;
+		if (str[c] >= 97 && str[c] <= 122) {
+			in_hoa[c] = str[c] - 32;
+		}
+		else {
+			in_hoa[c] = str[c];
+		}
 		c++;
 	}
-	printf("So luong ky tu space: %d\n", so_luong_space);
+	in_hoa[c] = 0;
+	printf("%s\n",in_hoa);
 }
