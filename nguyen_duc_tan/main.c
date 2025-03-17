@@ -3,14 +3,23 @@
 #include<math.h>
 
 void main() {
-	char str[] = "     this is     a    string    ";
+	char str[] = "nguyen duc tan ";
 	int c = 0;
-	int chu = 0;
+	char in_hoa[sizeof(str)];
 	while (str[c] != 0) {
-		if ((str[c] != 32) && (str[c+1] == 32 || str[c + 1] == 0)) {
-			chu++;
+		if (c==0 || str[c-1]==32) {
+			if (str[c] >= 97 && str[c] <= 122) {
+				in_hoa[c] = str[c] - 32;
+			}
+			else {
+				in_hoa[c] = str[c];
+			}
+		}
+		else {
+			in_hoa[c] = str[c];
 		}
 		c++;
 	}
-	printf("So tu trong chuoi: %d\n",chu);
+	in_hoa[c] = 0;
+	printf("%s\n",in_hoa);
 }
