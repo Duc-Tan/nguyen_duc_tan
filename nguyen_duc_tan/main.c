@@ -5,21 +5,11 @@
 void main() {
 	char str[] = "nguyen duc tan ";
 	int c = 0;
-	char in_hoa[sizeof(str)];
 	while (str[c] != 0) {
-		if (c==0 || str[c-1]==32) {
-			if (str[c] >= 97 && str[c] <= 122) {
-				in_hoa[c] = str[c] - 32;
-			}
-			else {
-				in_hoa[c] = str[c];
-			}
-		}
-		else {
-			in_hoa[c] = str[c];
+		if (str[c] == 99) {
+			printf("Vi tri cua ki tu c la: %d\n", c);
+			printf("Dia chi cua ki tu c la: %p\n", &c);
 		}
 		c++;
 	}
-	in_hoa[c] = 0;
-	printf("%s\n",in_hoa);
 }
