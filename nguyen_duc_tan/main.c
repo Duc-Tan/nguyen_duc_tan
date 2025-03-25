@@ -35,6 +35,21 @@ void tinhdiem(hocsinh* mang, int n) {
 	}
 }
 
+// Chuc nang: Tim hoc sinh co diem trung binh cao nhat
+// Input:
+//hocsinh* mang
+// int n: so luong hoc sinh
+// Output: hocsinh- co diem trung binh cao nhat(gom tat ca thong tin)
+hocsinh timhocsinhcaonhat(hocsinh* mang, int n) {
+	hocsinh hsmax = mang[0];
+	for (int i = 1; i < n; i++) {
+		if (mang[i].diemtrungbinh > hsmax.diemtrungbinh) {
+			hsmax = mang[i];
+		}
+	}
+	return hsmax;
+}
+
 void main() {
 	hocsinh hs[] = {
 		{"Nguyen Van A", 18, 8.5, 7.5, 0, 0},
@@ -44,7 +59,6 @@ void main() {
 		{"Nguyen Van E", 18, 4.5, 4.5, 0, 0}
 	};
 	tinhdiem(hs, 5);
-	for (int i = 0; i < 5; i++) {
-		printf("Ten: %s, Tuoi: %d, Diem toan: %.1f, Diem van: %.1f, Diem trung binh: %.1f, Xep loai: %d\n", hs[i].ten, hs[i].tuoi, hs[i].diemtoan, hs[i].diemvan, hs[i].diemtrungbinh, hs[i].xeploai);
-	}
+	hocsinh hsmax=timhocsinhcaonhat(hs, 5);
+	printf("Hoc sinh co diem trung binh cao nhat la: %s\n", hsmax.ten);
 }
