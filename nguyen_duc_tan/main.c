@@ -1,64 +1,71 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 
-// Xay dung kieu du lieu mo ta doi tuong hoc sinh
-// ten, tuoi, diem toan, diem van, diem trung binh (xep loai: 0=gioi, 1=kha, 2=trung binh, 3=yeu)
+// Chuc nang: Xay dung ham mo ta doi tuong phan so
 typedef struct {
-	char* ten;
-	int tuoi;
-	float diemtoan;
-	float diemvan;
-	float diemtrungbinh;
-	int xeploai;
-} hocsinh;
+	int tu;
+	int mau;
+} Phanso;
 
-//Chuc nang: Tinh diem trung binh va xep loai hoc luc cua hoc sinh
-//Input: 
-// hocsinh* mang
-// int n: so luong hoc sinh
-//Output: khong co
-void tinhdiem(hocsinh* mang, int n) {
-	for (int i = 0; i < n; i++) {
-		mang[i].diemtrungbinh = (mang[i].diemtoan + mang[i].diemvan) / 2;
-		if (mang[i].diemtrungbinh >= 8) {
-			mang[i].xeploai = 0;
-		}
-		else if (mang[i].diemtrungbinh >= 6.5) {
-			mang[i].xeploai = 1;
-		}
-		else if (mang[i].diemtrungbinh >= 5) {
-			mang[i].xeploai = 2;
-		}
-		else {
-			mang[i].xeploai = 3;
-		}
-	}
+//Chuc nang: chia 2 phan so
+//Input: 2 phan so a, b
+//Output: Ket qua cua phep chia a/b
+Phanso chia(Phanso a, Phanso b) {
+	Phanso kq;
+	kq.tu = a.tu * b.mau;
+	kq.mau = a.mau * b.tu;
+	return kq;
 }
 
-// Chuc nang: Tim hoc sinh co diem trung binh cao nhat
-// Input:
-//hocsinh* mang
-// int n: so luong hoc sinh
-// Output: hocsinh- co diem trung binh cao nhat(gom tat ca thong tin)
-hocsinh timhocsinhcaonhat(hocsinh* mang, int n) {
-	hocsinh hsmax = mang[0];
-	for (int i = 1; i < n; i++) {
-		if (mang[i].diemtrungbinh > hsmax.diemtrungbinh) {
-			hsmax = mang[i];
+//Chuc nang: cong 2 phan so
+//Input: 2 phan so a, b
+//Output: Ket qua cua phep cong a+b
+Phanso cong(Phanso a, Phanso b) {
+	Phanso kq;
+	kq.tu = a.tu * b.mau + b.tu * a.mau;
+	kq.mau = a.mau * b.mau;
+	return kq;
+}
+
+// Chuc nang: tru 2 phan so
+// Input: 2 phan so a, b
+// Output: Ket qua cua phep tru a-b
+Phanso tru(Phanso a, Phanso b) {
+	Phanso kq;
+	kq.tu = a.tu * b.mau - b.tu * a.mau;
+	kq.mau = a.mau * b.mau;
+	return kq;
+}
+
+// Chuc nang: rut gon phan so
+// Input: 1 phan so
+// Output: Phan so sau khi rut gon
+Phanso rutgon(Phanso a) {
+	Phanso kq;
+	int ucln = 1;
+	for (int i = 1; i <= a.tu && i <= a.mau; i++) {
+		if (a.tu % i == 0 && a.mau % i == 0) {
+			ucln = i;
 		}
 	}
-	return hsmax;
+	kq.tu = a.tu / ucln;
+	kq.mau = a.mau / ucln;
+	return kq;
 }
 
 void main() {
-	hocsinh hs[] = {
-		{"Nguyen Van A", 18, 8.5, 7.5, 0, 0},
-		{"Nguyen Van B", 18, 7.5, 8.5, 0, 0},
-		{"Nguyen Van C", 18, 6.5, 6.5, 0, 0},
-		{"Nguyen Van D", 18, 5.5, 5.5, 0, 0},
-		{"Nguyen Van E", 18, 4.5, 4.5, 0, 0}
-	};
-	tinhdiem(hs, 5);
-	hocsinh hsmax=timhocsinhcaonhat(hs, 5);
-	printf("Hoc sinh co diem trung binh cao nhat la: %s\n", hsmax.ten);
+	Phanso a = { 1, 2 };
+	Phanso b = { 6, 36 };
+
+	Phanso c = chia(a, b);
+	printf("%d/%d", c.tu, c.mau);
+
+	Phanso d = cong(a, b);
+	printf("\n%d/%d", d.tu, d.mau);
+
+	Phanso e = tru(a, b);
+	printf("\n%d/%d", e.tu, e.mau);
+
+	Phanso f = rutgon(d);
+	printf("\n%d/%d", f.tu, f.mau);
 }
