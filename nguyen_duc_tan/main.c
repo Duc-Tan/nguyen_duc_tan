@@ -2,175 +2,72 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-typedef struct
-{
-	int value;
-	struct node_t* previous_node;
-}node_t;
+typedef enum {
+	NAM,
+	NU
+}gioi_tinh_t;
+char* gioi_tinh_t_str[] = { "NAM", "NU" };
 
-typedef struct
-{
-	node_t* last_node;
-	int len;
-}linked_list_t;
+typedef enum {
+	GIOI,
+	KHA,
+	TRUNG_BINH,
+	YEU
+}loai_t;
+char* loai_t_str[] = { "GIOI", "KHA", "TRUNG_BINH", "YEU" };
 
+typedef struct {
+	char* ten;
+	int tuoi;
+	gioi_tinh_t gioitinh;
+	float diem_toan;
+	float diem_van;
+	float diem_tb;
+	loai_t loai;
+} hocsinh;
 
-
-/*3. Add: thêm một node vào cuối linked_list
-  - Input: 
-   * linked_list_t* - địa chỉ đối tượng linked list. Cái mà chúng ta sẽ add node vào đó
-   * int - giá trị của node được add vào
-  - Output: void */
-void AddNodetoLinkedlist(linked_list_t* ll, int val)
-{
-	node_t* node = malloc(sizeof(node_t));
-	node->value = val;
-	if (ll->len > 0) {
-		node->previous_node = ll->last_node;
-	}
-	else
-	{
-		node->previous_node = 0;
-	}
-	ll->last_node = node;
-	ll->len++;
-}
-
-/* 9. GetValueIndex: lấy giá trị của node ở vị trí index
-  - Input: 
-   * linked_list_t*: địa của của linked list cái mà chúng ta sẽ đi đọc giá trị của node ở vị trí index
-   * int index: vị trí của node chúng ta muốn đọc
-  - Ouput: int: giá trị của node mà chúng ta đọc được*/
-int GetValueIndex(linked_list_t* ll, int index)
-{
-	node_t* node_temp = ll->last_node;
-	for (int i = ll->len - 1; i > index; i--)
-	{
-		node_temp = node_temp->previous_node;
-	}
-	return node_temp->value;
-}
-
-/*1. Create: tạo ra đối tượng linked list
-  - input: linked_list_t* - địa chỉ đối tượng linked_list được tạo
-  - output: void*/
-void Create(linked_list_t* ll) {
-	ll->last_node = NULL;
-	ll->len = 0;
-}
-/*2. GetLen: lấy số lượng node trong linked lisst
-  - input: linked_list_t* địa chỉ đối tượng linked_list cần GetLen
-  - Output: int*/
-int GetLen(linked_list_t* ll) {
-	return ll->len;
-}
-
-/*4. Insert: chèn node vào lined list ở vị trí index
-  - input: 
-   * linked_list_t* địa của đối tượng linked lisst, mà ta sẽ insert đối tượng vào
-   * int value: giá trị của node.
-   * int index: vị trí node được insert vào.
-  - Output: void
-  - Gợi ý: giống như add chúng ta cũng cần cấp phát động, và chúng ta cần update lại previous_node của node trước nó
-*/
-void Insert(linked_list_t* ll, int val, int index)
-{
-	node_t* node = malloc(sizeof(node_t));
-	node->value = val;
-	node_t* node_temp = ll->last_node;
-	for (int i = ll->len - 1; i > index; i--)
-	{
-		node_temp = node_temp->previous_node;
-	}
-	node->previous_node = node_temp->previous_node;
-	node_temp->previous_node = node;
-	ll->len++;
-}
-
-/*5. Remove: xoá một node ở vị trí cuối cùng trong linked list
-  - input: linked_list_t* địa chỉ của đối tượng linked list, mà ta muốn xoá node ở trong nos
-  - output: void
-  - gợi ý: giải phóng vùng nhớ (sử dụng hàm free) của node cuối cùng.*/
-void Remove(linked_list_t* ll)
-{
-	node_t* node_temp = ll->last_node;
-	ll->last_node = node_temp->previous_node;
-	free(node_temp);
-	ll->len--;
-}
-
-/*6. RemoveIndex: xoá một node ở vị trí index
-  - Input: 
-   * linked_list_t*: địa chỉ của linked_líst, mà ta muốn xoá node trong nos
-   * int index: vị trí của node muốn xoá*/
-void RemoveIndex(linked_list_t* ll, int index) {
-	node_t* node_temp = ll->last_node;
-	for (int i = ll->len - 1; i > index; i--)
-	{
-		node_temp = node_temp->previous_node;
-	}
-	node_t* node_temp2 = node_temp->previous_node;
-	node_temp->previous_node = node_temp2->previous_node;
-	free(node_temp2);
-	ll->len--;
-}
-
-/*7. Search: tìm kiếm vị trí của node theo giá trị
-  - Input: 
-   * linked_list_t*: địa chỉ của linked líst mà chúng ta cần tìm kiếm
-   * int value: giá trị của node mà chúng ta muốn tìm kiếm
-   - Ouput: int: vị trí của node được tìm thấy, -1 nếu không tìm thấy bất kỳ node vào có giá trị value.*/
-int Search(linked_list_t* ll, int val) {
-	node_t* node_temp = ll->last_node;
-	for (int i = ll->len - 1; i >= 0; i--)
-	{
-		if (node_temp->value == val)
-		{
-			return i;
+//Chuc nang: tinh diem trung binh va xep loai
+//Input:hocsinh* hs
+//Output: khong co
+void tinh_diem_xep_loai(hocsinh* hs, int n) {
+	for (int i = 0; i < n; i++) {
+		hs[i].diem_tb = (hs[i].diem_toan + hs[i].diem_van) / 2;
+		if (hs[i].diem_tb >= 8) {
+			hs[i].loai = GIOI;
 		}
-		node_temp = node_temp->previous_node;
+		else if (hs[i].diem_tb >= 6.5) {
+			hs[i].loai = KHA;
+		}
+		else if (hs[i].diem_tb >= 5) {
+			hs[i].loai = TRUNG_BINH;
+		}
+		else {
+			hs[i].loai = YEU;
+		}
 	}
-	return -1;
 }
 
-/*8. GetValue: lấy giá trị của node ở vị trí cuối cùng
-  - Input: 
-   * linked_list_t*: địa chỉ của linked list cái mà chúng ta sẽ đi đọc node trong đó.
-  - Ouput: int: giá trị của node*/
-int GetValue(linked_list_t* ll) {
-	return ll->last_node->value;
-}
-
-/*10. DeleteAll: xoá tất cả node trong linked lisst
-  - Input: linked_list_t*: địa chỉ của linked list cái mà chúng ta muốn xoá hết tất cả node của nos
-  - Output: void */
-void DeleteAll(linked_list_t* ll){
-	node_t* node_temp = ll->last_node;
-	while (ll->len > 0)
-	{
-		node_temp = ll->last_node;
-		ll->last_node = node_temp->previous_node;
-		free(node_temp);
-		ll->len--;
+//Chuc nang: In ra danh sach hoc sinh
+ //Input: Nhap mang hoc sinh, so luong hoc sinh
+ //Output: khong co
+void in_hoc_sinh(hocsinh* hs, int so_luong) {
+	for (int i = 0; i < so_luong; i++) {
+		printf("Ten: %s\n", hs[i].ten);
+		printf("Tuoi: %d\n", hs[i].tuoi);
+		printf("Gioi tinh: %s\n", gioi_tinh_t_str[hs[i].gioitinh]);
+		printf("Diem toan: %.2f\n", hs[i].diem_toan);
+		printf("Diem van: %.2f\n", hs[i].diem_van);
+		printf("Diem trung binh: %.2f\n", hs[i].diem_tb);
+		printf("Xep loai: %s\n", loai_t_str[hs[i].loai]);
 	}
 }
 
 void main() {
-	linked_list_t ll = { 0 };
-	AddNodetoLinkedlist(&ll, 1);
-	AddNodetoLinkedlist(&ll, 2);
-	AddNodetoLinkedlist(&ll, 3);
-	AddNodetoLinkedlist(&ll, 4);
-	AddNodetoLinkedlist(&ll, 5);
-
-	int x = GetValueIndex(&ll, 3);
-	Insert(&ll, 6, 2);
-	int y = GetLen(&ll);
-	Remove(&ll);
-	int z = GetLen(&ll);
-	RemoveIndex(&ll, 2);
-	int t = GetLen(&ll);
-	int k = Search(&ll, 3);
-	int m = GetValue(&ll);
-	DeleteAll(&ll);
+	hocsinh arr[] = {
+		{"Nguyen Van A", 20, NAM, 8.5, 9},
+		{"Nguyen Thi B", 20, NU, 7.5, 8},
+		{"Nguyen Van C", 20, NAM, 6.5, 7},
+	};
+	tinh_diem_xep_loai(arr, 3);
+	in_hoc_sinh(arr, 3);
 }
