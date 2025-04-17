@@ -1,73 +1,41 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
-#include<stdlib.h>
+#include<string.h>
+#include<math.h>
 
-typedef enum {
-	NAM,
-	NU
-}gioi_tinh_t;
-char* gioi_tinh_t_str[] = { "NAM", "NU" };
+typedef float (*func_ptr)(float);
 
-typedef enum {
-	GIOI,
-	KHA,
-	TRUNG_BINH,
-	YEU
-}loai_t;
-char* loai_t_str[] = { "GIOI", "KHA", "TRUNG_BINH", "YEU" };
-
-typedef struct {
-	char* ten;
-	int tuoi;
-	gioi_tinh_t gioitinh;
-	float diem_toan;
-	float diem_van;
-	float diem_tb;
-	loai_t loai;
-} hocsinh;
-
-//Chuc nang: tinh diem trung binh va xep loai
-//Input:hocsinh* hs
-//Output: khong co
-void tinh_diem_xep_loai(hocsinh* hs, int n) {
-	for (int i = 0; i < n; i++) {
-		hs[i].diem_tb = (hs[i].diem_toan + hs[i].diem_van) / 2;
-		if (hs[i].diem_tb >= 8) {
-			hs[i].loai = GIOI;
-		}
-		else if (hs[i].diem_tb >= 6.5) {
-			hs[i].loai = KHA;
-		}
-		else if (hs[i].diem_tb >= 5) {
-			hs[i].loai = TRUNG_BINH;
-		}
-		else {
-			hs[i].loai = YEU;
-		}
-	}
+float fx(float x) {
+	return x * x;
 }
 
-//Chuc nang: In ra danh sach hoc sinh
- //Input: Nhap mang hoc sinh, so luong hoc sinh
- //Output: khong co
-void in_hoc_sinh(hocsinh* hs, int so_luong) {
-	for (int i = 0; i < so_luong; i++) {
-		printf("Ten: %s\n", hs[i].ten);
-		printf("Tuoi: %d\n", hs[i].tuoi);
-		printf("Gioi tinh: %s\n", gioi_tinh_t_str[hs[i].gioitinh]);
-		printf("Diem toan: %.2f\n", hs[i].diem_toan);
-		printf("Diem van: %.2f\n", hs[i].diem_van);
-		printf("Diem trung binh: %.2f\n", hs[i].diem_tb);
-		printf("Xep loai: %s\n", loai_t_str[hs[i].loai]);
-	}
+float gx(float x) {
+	return 2 * x * x + 3 * x + 1;
 }
+
+float tx(float x) {
+	return sin(x) + 1;
+}
+
+float tinh_tich_phan(int a, int b, func_ptr pfunc) {
+	float h = (b - a) / 1000.0f;
+	float s = 0;
+	for (int i = 0; i < 1000; i++) {
+		float db = pfunc(a + i * h);
+		float dl = pfunc(a + (i + 1) * h);
+		s += (db + dl) * h / 2;
+	}
+	return s;
+}
+
+typedef void (*pfunc)();
+pfunc arr_func[] = {fx,gx,tx};
 
 void main() {
-	hocsinh arr[] = {
-		{"Nguyen Van A", 20, NAM, 8.5, 9},
-		{"Nguyen Thi B", 20, NU, 7.5, 8},
-		{"Nguyen Van C", 20, NAM, 6.5, 7},
-	};
-	tinh_diem_xep_loai(arr, 3);
-	in_hoc_sinh(arr, 3);
+	int n;
+	int arr_size = sizeof(arr_func) / sizeof(arr_func[0]);
+	printf("Nhap vao n= ");
+	scanf("%d", &n);
+	arr_func[n]();
+	float s = tinh_tich_phan(1,2, arr_func[n]);
 }
