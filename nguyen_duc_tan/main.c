@@ -1,41 +1,36 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
-#include<string.h>
-#include<math.h>
 
-typedef float (*func_ptr)(float);
+typedef union {
+	int size_file;
+	char size_bytes[4];
+}size_union;
 
-float fx(float x) {
-	return x * x;
-}
-
-float gx(float x) {
-	return 2 * x * x + 3 * x + 1;
-}
-
-float tx(float x) {
-	return sin(x) + 1;
-}
-
-float tinh_tich_phan(int a, int b, func_ptr pfunc) {
-	float h = (b - a) / 1000.0f;
-	float s = 0;
-	for (int i = 0; i < 1000; i++) {
-		float db = pfunc(a + i * h);
-		float dl = pfunc(a + (i + 1) * h);
-		s += (db + dl) * h / 2;
-	}
-	return s;
-}
-
-typedef void (*pfunc)();
-pfunc arr_func[] = {fx,gx,tx};
+typedef union {
+    int sample_rate;
+    char rate_bytes[4];
+}rate_union;
 
 void main() {
-	int n;
-	int arr_size = sizeof(arr_func) / sizeof(arr_func[0]);
-	printf("Nhap vao n= ");
-	scanf("%d", &n);
-	arr_func[n]();
-	float s = tinh_tich_phan(1,2, arr_func[n]);
+    FILE* pf = fopen("D:/C-HW/audio.wav", "r");
+    if (pf == NULL) {
+        printf("Mo file that bai\n");
+        return 1;
+    }
+    printf("Mo file thanh cong\n");
+
+    size_union size;
+    fseek(pf, 4, SEEK_SET);
+    fread(size.size_bytes, sizeof(char), 4, pf);
+    int SizeFile = size.size_file;
+    printf("Kich thuoc  file : %u byte\n", SizeFile + 8);
+
+	rate_union rate;
+    fseek(pf, 24, SEEK_SET);
+    fread(rate.rate_bytes, sizeof(char), 4, pf);
+    int SampleRate = rate.sample_rate;
+    printf("Sample Rate: %u Hz\n", SampleRate);
+
+
+    fclose(pf);
 }
