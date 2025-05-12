@@ -1,39 +1,36 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 
+typedef union {
+	int size_file;
+	char size_bytes[4];
+}size_union;
+
+typedef union {
+    int sample_rate;
+    char rate_bytes[4];
+}rate_union;
+
 void main() {
-	int n;
-	printf("Nhap vao n= ");
-	scanf("%d", &n);
-	switch (n) {
-	case 1:
-		printf("one");
-		break;
-	case 2:
-		printf("two");
-		break;
-	case 3:
-		printf("three");
-		break;
-	case 4:
-		printf("four");
-		break;
-	case 5:
-		printf("five");
-		break;
-	case 6:
-		printf("six");
-		break;
-	case 7:
-		printf("seven");
-		break;
-	case 8:
-		printf("eight");
-		break;
-	case 9:
-		printf("nine");
-		break;
-	default:
-		printf("Greater than 9");
-	}
+    FILE* pf = fopen("D:/C-HW/audio.wav", "r");
+    if (pf == NULL) {
+        printf("Mo file that bai\n");
+        return 1;
+    }
+    printf("Mo file thanh cong\n");
+
+    size_union size;
+    fseek(pf, 4, SEEK_SET);
+    fread(size.size_bytes, sizeof(char), 4, pf);
+    int SizeFile = size.size_file;
+    printf("Kich thuoc  file : %u byte\n", SizeFile + 8);
+
+	rate_union rate;
+    fseek(pf, 24, SEEK_SET);
+    fread(rate.rate_bytes, sizeof(char), 4, pf);
+    int SampleRate = rate.sample_rate;
+    printf("Sample Rate: %u Hz\n", SampleRate);
+
+
+    fclose(pf);
 }
