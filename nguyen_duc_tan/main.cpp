@@ -1,151 +1,89 @@
-#include <stdio.h>
-class phan_so {
+﻿#include<stdio.h>
+#include<stdlib.h>
+
+class mang {
 public:
-	int tu;
-	int mau;
-	phan_so nhan(phan_so khac);
-	phan_so chia(phan_so khac);
-	phan_so cong(phan_so khac);
-	phan_so tru(phan_so khac);
-	phan_so rut_gon();
-	void ss_lon_hon(phan_so khac);
-	void ss_be_hon(phan_so khac);
-	void ss_lon_hon_bang(phan_so khac);
-	void ss_be_hon_bang(phan_so khac);
-	void ss_bang(phan_so khac);
-	phan_so(int t, int m);
-	phan_so();
+	int* data;
+	int size;
+	mang(int num_item);
+	int& operator[](int index);
+	void tang_arr(int n);
+	void giam_arr(int n);
+	~mang();
 };
 
-phan_so::phan_so(int t, int m) {
-	tu = t;
-	mau = m;
+mang::mang(int num_item) {
+	data = (int*)malloc(num_item * sizeof(int));
+	size = num_item;
 }
 
-phan_so::phan_so() {
-	tu = 0;
-	mau = 0;
+int& mang::operator[](int index) {
+	return data[index];
 }
 
-phan_so phan_so::nhan(phan_so khac) {
-	phan_so kq;
-	kq.tu = tu * khac.tu;
-	kq.mau = mau * khac.mau;
-	return kq;
+mang::~mang() {
+	data = 0;
+	free(data);
 }
 
-phan_so phan_so::chia(phan_so khac) {
-	phan_so kq;
-	kq.tu = tu * khac.mau;
-	kq.mau = mau * khac.tu;
-	return kq;
+int tong(mang a) {
+	int sum = 0;
+	for (int i = 0; i < a.size; i++) {
+		sum += a[i];
+	}
+	return sum;
 }
 
-phan_so phan_so::cong(phan_so khac) {
-	phan_so kq;
-	kq.tu = tu * khac.mau + mau * khac.tu;
-	kq.mau = mau * khac.mau;
-	return kq;
+void mang::tang_arr(int n) {
+	int* new_data = (int*)malloc((size + n) * sizeof(int));
+	for (int i = 0; i < size + n; i++) {
+		if (i < size)
+			new_data[i] = data[i];
+		else
+			new_data[i] = 0;
+	}
+	if(data)
+	{ 
+		
+		free(data);
+		data = 0;
+	}
+	data = new_data;
+	size += n;
 }
 
-phan_so phan_so::tru(phan_so khac) {
-	phan_so kq;
-	kq.tu = tu * khac.mau - mau * khac.tu;
-	kq.mau = mau * khac.mau;
-	return kq;
-}
-
-phan_so phan_so::rut_gon() {
-	phan_so kq;
-	int ucln = 1;
-	for (int i = 1; i <= tu && i <= mau; i++) {
-		if (tu % i == 0 && mau % i == 0) {
-			ucln = i;
-		}
+void mang::giam_arr(int n) {
+	if (n >= size)
+	{
+		printf("Khong du so phan tu de xoa\n");
+		return;
 	}
-	kq.tu = tu / ucln;
-	kq.mau = mau / ucln;
-	return kq;
-}
-
-void phan_so::ss_lon_hon(phan_so khac) {
-	if (tu / (float)mau > khac.tu / (float)khac.mau) {
-		printf("%d/%d lon hon %d/%d\n", tu, mau, khac.tu, khac.mau);
+	int* new_data = (int*)malloc((size - n) * sizeof(int));
+	for (int i = 0; i < size - n; i++) {
+		new_data[i] = data[i];
 	}
-	else {
-		printf("%d/%d KHONG lon hon %d/%d\n", tu, mau, khac.tu, khac.mau);
+	if (data)
+	{
+		free(data);
+		data = 0;
 	}
-}
-
-void phan_so::ss_be_hon(phan_so khac) {
-	if (tu / (float)mau < khac.tu / (float)khac.mau) {
-		printf("%d/%d be hon %d/%d\n", tu, mau, khac.tu, khac.mau);
-	}
-	else {
-		printf("%d/%d KHONG be hon %d/%d\n", tu, mau, khac.tu, khac.mau);
-	}
-}
-
-void phan_so::ss_lon_hon_bang(phan_so khac) {
-	if (tu / (float)mau >= khac.tu / (float)khac.mau) {
-		printf("%d/%d lon hon bang %d/%d\n", tu, mau, khac.tu, khac.mau);
-	}
-	else {
-		printf("%d/%d KHONG lon hon bang %d/%d\n", tu, mau, khac.tu, khac.mau);
-	}
-}
-
-void phan_so::ss_be_hon_bang(phan_so khac) {
-	if (tu / (float)mau <= khac.tu / (float)khac.mau) {
-		printf("%d/%d be hon bang %d/%d\n", tu, mau, khac.tu, khac.mau);
-	}
-	else {
-		printf("%d/%d KHONG be hon bang %d/%d\n", tu, mau, khac.tu, khac.mau);
-	}
-}
-
-void phan_so::ss_bang(phan_so khac) {
-	if (tu / (float)mau == khac.tu / (float)khac.mau) {
-		printf("%d/%d bang %d/%d\n", tu, mau, khac.tu, khac.mau);
-	}
-	else {
-		printf("%d/%d KHONG bang %d/%d\n", tu, mau, khac.tu, khac.mau);
-	}
+	data = new_data;
+	size -= n;
 }
 
 void main() {
-	phan_so a(2, 3);
-	phan_so b(3, 4);
+	mang arr(3);
+	arr[0] = 1;
+	arr[1] = 2;
+	arr[2] = 3;
 
-	phan_so tich;
-	tich = a.nhan(b);
-	printf("%d/%d * %d/%d = %d/%d\n", a.tu, a.mau, b.tu, b.mau, tich.tu, tich.mau);
+	mang arr2(4);
+	arr2[0] = 6;
+	arr2[1] = 7;
+	arr2[2] = 8;
+	arr2[3] = 9;
 
-	phan_so thuong;
-	thuong = a.chia(b);
-	printf("%d/%d / %d/%d = %d/%d\n", a.tu, a.mau, b.tu, b.mau, thuong.tu, thuong.mau);
-
-	phan_so tong;
-	tong = a.cong(b);
-	printf("%d/%d + %d/%d = %d/%d\n", a.tu, a.mau, b.tu, b.mau, tong.tu, tong.mau);
-
-	phan_so hieu;
-	hieu = a.tru(b);
-	printf("%d/%d - %d/%d = %d/%d\n", a.tu, a.mau, b.tu, b.mau, hieu.tu, hieu.mau);
-
-	phan_so rutgon;
-	rutgon = tich.rut_gon();
-	printf("Rut gon: %d/%d = %d/%d\n", tich.tu, tich.mau, rutgon.tu, rutgon.mau);
-
-	a.ss_lon_hon(b);
-	a.ss_be_hon(b);
-	a.ss_lon_hon_bang(b);
-	a.ss_be_hon_bang(b);
-	a.ss_bang(b);
-
-	b.ss_lon_hon(a);
-	b.ss_be_hon(a);
-	b.ss_lon_hon_bang(a);
-	b.ss_be_hon_bang(a);
-	b.ss_bang(b);
+	int sum = tong(arr);
+	arr.tang_arr(2);
+	arr2.giam_arr(2);
 }
