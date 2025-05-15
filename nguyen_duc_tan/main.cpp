@@ -1,89 +1,70 @@
 ﻿#include<stdio.h>
+#include<iostream>
 #include<stdlib.h>
 
 class mang {
 public:
-	int* data;
-	int size;
-	mang(int num_item);
-	int& operator[](int index);
-	void tang_arr(int n);
-	void giam_arr(int n);
-	~mang();
+    int* data;
+    int size;
+    mang(int num_item) {
+        data = (int*)malloc(num_item * sizeof(int));
+        size = num_item;
+    }
+    int& operator[](int index) {
+        return data[index];
+    }
+
+    //Chuc nang: them gia tri moi vao cuoi mang
+    //Input: int val (gia tri moi)
+    //Output: khong co
+    void push_back(int val) {
+        //Cap phat vung nho moi lon hon
+        int* new_data = (int*)malloc((size + 1) * sizeof(int));
+        //Sao chep gia tri vung nho cu vao vung nho moi
+        for (int i = 0; i < size; i++) {
+            new_data[i] = data[i];
+        }
+        //Them gia tri moi vao mang
+        new_data[size] = val;
+        //Giai phong vung nho cu
+        free(data);
+        //Cap nhat dia chi cua vung nho moi vao con tro data
+        data = new_data;
+        //Cap nhat gia tri cua bien size
+        size++;
+    }
+    //Chuc nang: xoa gia tri cuoi mang
+    //Input: khong co
+    //Output: khong co
+    void pop_back() {
+        //Cap phat vung nho moi nho hon
+        int* new_data = (int*)malloc((size - 1) * sizeof(int));
+        //Sao chep gia tri vung nho cu vao vung nho moi
+        for (int i = 0; i < size - 1; i++) {
+            new_data[i] = data[i];
+        }
+        //Giai phong vung nho cu
+        free(data);
+        //Cap nhat dia chi cua vung nho moi vao con tro data
+        data = new_data;
+        //Cap nhat gia tri cua bien size
+        size--;
+    }
+
+    ~mang() {
+        free(data);
+    }
 };
 
-mang::mang(int num_item) {
-	data = (int*)malloc(num_item * sizeof(int));
-	size = num_item;
-}
 
-int& mang::operator[](int index) {
-	return data[index];
-}
+int main(void) {
+    mang a(5);
+    for (int i = 0; i < 5; i++) {
+        a[i] = i + 1;
+    }
+    a.pop_back();
+	a.push_back(6);
+	a.push_back(7);
 
-mang::~mang() {
-	data = 0;
-	free(data);
-}
-
-int tong(mang a) {
-	int sum = 0;
-	for (int i = 0; i < a.size; i++) {
-		sum += a[i];
-	}
-	return sum;
-}
-
-void mang::tang_arr(int n) {
-	int* new_data = (int*)malloc((size + n) * sizeof(int));
-	for (int i = 0; i < size + n; i++) {
-		if (i < size)
-			new_data[i] = data[i];
-		else
-			new_data[i] = 0;
-	}
-	if(data)
-	{ 
-		
-		free(data);
-		data = 0;
-	}
-	data = new_data;
-	size += n;
-}
-
-void mang::giam_arr(int n) {
-	if (n >= size)
-	{
-		printf("Khong du so phan tu de xoa\n");
-		return;
-	}
-	int* new_data = (int*)malloc((size - n) * sizeof(int));
-	for (int i = 0; i < size - n; i++) {
-		new_data[i] = data[i];
-	}
-	if (data)
-	{
-		free(data);
-		data = 0;
-	}
-	data = new_data;
-	size -= n;
-}
-
-void main() {
-	mang arr(3);
-	arr[0] = 1;
-	arr[1] = 2;
-	arr[2] = 3;
-
-	mang arr2(4);
-	arr2[0] = 6;
-	arr2[1] = 7;
-	arr2[2] = 8;
-	arr2[3] = 9;
-
-	int sum = tong(arr);
-	arr.tang_arr(2);
-	arr2.giam_arr(2);
+    return 0;
 }
