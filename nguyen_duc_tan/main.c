@@ -2,35 +2,20 @@
 #include<stdio.h>
 
 typedef union {
-	int size_file;
-	char size_bytes[4];
-}size_union;
+	unsigned short x;
+	unsigned char y[2];
+}so_nguyen_t;
 
-typedef union {
-    int sample_rate;
-    char rate_bytes[4];
-}rate_union;
+void in_8bit_cao_8bit_thap(unsigned short val) {
+	so_nguyen_t a;
+	a.x = val;
+	printf("8 bit thap: %d\n", a.y[0]);
+	printf("8 bit cao: %d\n", a.y[1]);
+}
 
 void main() {
-    FILE* pf = fopen("D:/C-HW/audio.wav", "r");
-    if (pf == NULL) {
-        printf("Mo file that bai\n");
-        return 1;
-    }
-    printf("Mo file thanh cong\n");
-
-    size_union size;
-    fseek(pf, 4, SEEK_SET);
-    fread(size.size_bytes, sizeof(char), 4, pf);
-    int SizeFile = size.size_file;
-    printf("Kich thuoc  file : %u byte\n", SizeFile + 8);
-
-	rate_union rate;
-    fseek(pf, 24, SEEK_SET);
-    fread(rate.rate_bytes, sizeof(char), 4, pf);
-    int SampleRate = rate.sample_rate;
-    printf("Sample Rate: %u Hz\n", SampleRate);
-
-
-    fclose(pf);
+	unsigned short value;
+	printf("Nhap vao so nguyen 16 bit: ");
+	scanf("%hd", &value);
+	in_8bit_cao_8bit_thap(value);
 }
