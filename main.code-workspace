@@ -1,0 +1,26 @@
+{
+  "folders": [
+	{
+		"path": "../../../New_project/sample_project/main"
+	},
+	{
+		"path": "../../../Espressif/frameworks/esp-idf-v5.3.1"
+	}
+],
+  "settings": {
+    "files.associations": {
+      "*.inc": "c",
+      "atomic": "c",
+      "complex": "c",
+      "numeric": "c",
+      "sstream": "c",
+      "streambuf": "c",
+      "utility": "c",
+      "vector": "c",
+      "xmemory": "c",
+      "xstring": "c",
+      "xtr1common": "c",
+      "gpio.h": "c"
+    }
+  }
+}
